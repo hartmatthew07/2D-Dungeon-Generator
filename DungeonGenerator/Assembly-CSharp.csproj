@@ -47,7 +47,9 @@
   <ItemGroup>
      <Compile Include="Assets\Completed\Scripts\BoardCreator.cs" />
      <Compile Include="Assets\Completed\Scripts\BoardManager.cs" />
+     <Compile Include="Assets\Completed\Scripts\CollectionScript.cs" />
      <Compile Include="Assets\Completed\Scripts\Corridor.cs" />
+     <Compile Include="Assets\Completed\Scripts\Door.cs" />
      <Compile Include="Assets\Completed\Scripts\Enemy.cs" />
      <Compile Include="Assets\Completed\Scripts\GameManager.cs" />
      <Compile Include="Assets\Completed\Scripts\IntRange.cs" />
