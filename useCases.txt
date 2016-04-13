@@ -1,0 +1,5 @@
+player needs to collect keys to open doors.
+creator needs to place keys to open doors.
+creator needs to create exits to allow the player to exit the level.
+player needs to exit to reach the next level.
+
