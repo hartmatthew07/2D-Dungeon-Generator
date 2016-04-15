@@ -16,19 +16,26 @@ public class BoardCreator : MonoBehaviour
 	public IntRange roomWidth = new IntRange (3, 10);         // The range of widths rooms can have.
 	public IntRange roomHeight = new IntRange (3, 10);        // The range of heights rooms can have.
 	public IntRange corridorLength = new IntRange (6, 10);    // The range of lengths corridors between rooms can have.
+	public IntRange keyCount = new IntRange (5, 10);		  //Lower and upper limit for our random number of keys per level.
 	public GameObject[] floorTiles;                           // An array of floor tile prefabs.
 	public GameObject[] wallTiles;                            // An array of wall tile prefabs.
 	public GameObject[] outerWallTiles;                       // An array of outer wall tile prefabs.
 	public GameObject player;
-
+	public GameObject key;
+	public GameObject door;
+	public int keyCountInLevel;
+	bool roomHasKey;
 	private TileType[][] tiles;                               // A jagged array of tile types representing the board, like a grid.
 	private Room[] rooms;                                     // All the rooms that are created for this board.
 	private Corridor[] corridors;                             // All the corridors that connect the rooms.
 	private GameObject boardHolder;                           // GameObject that acts as a container for all other tiles.
-
+	public int levelKeys;
 
 	private void Start ()
 	{
+		keyCountInLevel = 0;
+		levelKeys = keyCount.Random;
+
 		// Create the board holder.
 		boardHolder = new GameObject("BoardHolder");
 
@@ -78,11 +85,22 @@ public class BoardCreator : MonoBehaviour
 
 		for (int i = 1; i < rooms.Length; i++)
 		{
+			if((int)(Random.value * 100) % 2 == 0 && (keyCountInLevel < levelKeys ))
+			{
+				roomHasKey = true;
+				Debug.Log("room has Key!");
+				keyCountInLevel++;
+			}
+			else
+			{
+				roomHasKey = false;
+			} 
+
 			// Create a room.
 			rooms[i] = new Room ();
 
 			// Setup the room based on the previous corridor.
-			rooms[i].SetupRoom (roomWidth, roomHeight, columns, rows, corridors[i - 1]);
+			rooms[i].SetupRoom (roomWidth, roomHeight, columns, rows, corridors[i - 1], roomHasKey);
 
 			// If we haven't reached the end of the corridors array...
 			if (i < corridors.Length)
@@ -91,7 +109,7 @@ public class BoardCreator : MonoBehaviour
 				corridors[i] = new Corridor ();
 
 				// Setup the corridor based on the room that was just created.
-				corridors[i].SetupCorridor(rooms[i], corridorLength, roomWidth, roomHeight, columns, rows, false);
+				corridors[i].SetupCorridor(rooms[i], corridorLength, roomWidth, roomHeight, columns, rows, false, rooms[i].hasKey);
 			}
 
 			if (i == rooms.Length *.5f)
@@ -120,6 +138,15 @@ public class BoardCreator : MonoBehaviour
 				for (int k = 0; k < currentRoom.roomHeight; k++)
 				{
 					int yCoord = currentRoom.yPos + k;
+
+
+					if(currentRoom.hasKey && ((int)(Random.value * 100) % 2 == 0) && !currentRoom.placedKey)
+					{
+						//place the key
+						Instantiate(key, new Vector3(xCoord,yCoord), Quaternion.identity);
+						currentRoom.placedKey = true;
+						Debug.Log("Instantiate Key!");
+					}
 
 					// The coordinates in the jagged array are based on the room's position and it's width and height.
 					tiles[xCoord][yCoord] = TileType.Floor;
@@ -159,6 +186,14 @@ public class BoardCreator : MonoBehaviour
 				case Direction.West:
 					xCoord -= j;
 					break;
+				}
+
+				if(currentCorridor.hasDoor && ((int)(Random.value * 100) % 2 == 0) && !currentCorridor.doorPlaced)
+				{
+					//place the key
+					Instantiate(door, new Vector3(xCoord,yCoord), Quaternion.identity);
+					currentCorridor.doorPlaced = true;
+					Debug.Log("Instantiate Key!");
 				}
 
 				// Set the tile at these coordinates to Floor.

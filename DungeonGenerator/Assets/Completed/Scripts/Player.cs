@@ -11,6 +11,7 @@ namespace Completed
 		public int pointsPerFood = 10;				//Number of points to add to player food points when picking up a food object.
 		public int pointsPerSoda = 20;				//Number of points to add to player food points when picking up a soda object.
 		public int wallDamage = 1;					//How much damage a player does to a wall when chopping it.
+		public int keys {get; set;}
 		//public Text foodText;						//UI Text to display current player food total.
 		public AudioClip moveSound1;				//1 of 2 Audio clips to play when player moves.
 		public AudioClip moveSound2;				//2 of 2 Audio clips to play when player moves.
@@ -28,6 +29,9 @@ namespace Completed
 		//Start overrides the Start function of MovingObject
 		protected override void Start ()
 		{
+			//Set the amount of keys the player has to 0
+			keys = 0;
+
 			//Get a component reference to the Player's animator component
 			animator = GetComponent<Animator>();
 			
@@ -180,6 +184,12 @@ namespace Completed
 				
 				//Disable the player object since level is over.
 				enabled = false;
+			}
+
+			else if(other.tag == "key")
+			{
+				keys ++;
+				other.gameObject.SetActive(false);
 			}
 			
 			//Check if the tag of the trigger collided with is Food.
