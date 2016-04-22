@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BoardCreator : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class BoardCreator : MonoBehaviour
 	public GameObject player;
 	public GameObject key;
 	public GameObject door;
+	public int DoorCounter = 0;
 	public int keyCountInLevel;
 	bool roomHasKey;
 	private TileType[][] tiles;                               // A jagged array of tile types representing the board, like a grid.
@@ -192,6 +194,7 @@ public class BoardCreator : MonoBehaviour
 				{
 					//place the key
 					Instantiate(door, new Vector3(xCoord,yCoord), Quaternion.identity);
+					DoorCounter ++;
 					currentCorridor.doorPlaced = true;
 					Debug.Log("Instantiate Key!");
 				}
