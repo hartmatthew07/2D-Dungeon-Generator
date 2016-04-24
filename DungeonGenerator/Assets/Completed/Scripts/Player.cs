@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;	//Allows us to use UI.
+using UnityEngine.SceneManagement;
 
 namespace Completed
 {
@@ -11,7 +12,7 @@ namespace Completed
 		public int pointsPerFood = 10;				//Number of points to add to player food points when picking up a food object.
 		public int pointsPerSoda = 20;				//Number of points to add to player food points when picking up a soda object.
 		public int wallDamage = 1;					//How much damage a player does to a wall when chopping it.
-		public int keys {get; set;}
+		public int keys;
 		//public Text foodText;						//UI Text to display current player food total.
 		public AudioClip moveSound1;				//1 of 2 Audio clips to play when player moves.
 		public AudioClip moveSound2;				//2 of 2 Audio clips to play when player moves.
@@ -24,7 +25,7 @@ namespace Completed
 		private Animator animator;					//Used to store a reference to the Player's animator component.
 		private int food;							//Used to store player food points total during level.
 		private Vector2 touchOrigin = -Vector2.one;	//Used to store location of screen touch origin for mobile controls.
-		
+
 		
 		//Start overrides the Start function of MovingObject
 		protected override void Start ()
@@ -56,6 +57,11 @@ namespace Completed
 		
 		private void Update ()
 		{
+			if(Input.GetKeyDown(KeyCode.R))
+			{
+				Restart();
+			}
+				
 			//If it's not the player's turn, exit the function.
 			if(!GameManager.instance.playersTurn) return;
 			
@@ -132,7 +138,6 @@ namespace Completed
 		protected override void AttemptMove <T> (int xDir, int yDir)
 		{
 			//Every time player moves, subtract from food points total.
-			food--;
 			
 			//Update food text display to reflect current score.
 			//foodText.text = "Food: " + food;
@@ -142,12 +147,27 @@ namespace Completed
 			
 			//Hit allows us to reference the result of the Linecast done in Move.
 			RaycastHit2D hit;
-			
+
 			//If Move returns true, meaning Player was able to move into an empty space.
 			if (Move (xDir, yDir, out hit)) 
 			{
 				//Call RandomizeSfx of SoundManager to play the move sound, passing in two audio clips to choose from.
 				SoundManager.instance.RandomizeSfx (moveSound1, moveSound2);
+			}
+			if(!Move (xDir, yDir, out hit))
+			{
+				if(hit.collider.gameObject.tag == "door")
+				{
+					if(keys > 0)
+					{
+						keys --;
+						hit.collider.gameObject.SetActive(false);
+					}
+					else
+					{
+						//do nothing
+					}	
+				}
 			}
 			
 			//Since the player has moved and lost food points, check if the game has ended.
@@ -166,12 +186,11 @@ namespace Completed
 			Wall hitWall = component as Wall;
 			
 			//Call the DamageWall function of the Wall we are hitting.
-			hitWall.DamageWall (wallDamage);
+			//hitWall.DamageWall (wallDamage);
 			
 			//Set the attack trigger of the player's animation controller in order to play the player's attack animation.
 			animator.SetTrigger ("playerChop");
 		}
-		
 		
 		//OnTriggerEnter2D is sent when another object enters a trigger collider attached to this object (2D physics only).
 		private void OnTriggerEnter2D (Collider2D other)
@@ -191,6 +210,7 @@ namespace Completed
 				keys ++;
 				other.gameObject.SetActive(false);
 			}
+
 			
 			//Check if the tag of the trigger collided with is Food.
 			else if(other.tag == "Food")
@@ -229,8 +249,10 @@ namespace Completed
 		//Restart reloads the scene when called.
 		private void Restart ()
 		{
+			Destroy(GameObject.Find("GameManager"));
+			Destroy(this.gameObject);
 			//Load the last scene loaded, in this case Main, the only scene in the game.
-			Application.LoadLevel (Application.loadedLevel);
+
 		}
 		
 		

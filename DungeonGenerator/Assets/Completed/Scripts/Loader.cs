@@ -9,7 +9,7 @@ namespace Completed
 		public GameObject soundManager;			//SoundManager prefab to instantiate.
 		
 		
-		void Awake ()
+		void Update ()
 		{
 			//Check if a GameManager has already been assigned to static variable GameManager.instance or if it's still null
 			if (GameManager.instance == null)

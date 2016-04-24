@@ -21,6 +21,7 @@ public class BoardCreator : MonoBehaviour
 	public GameObject[] floorTiles;                           // An array of floor tile prefabs.
 	public GameObject[] wallTiles;                            // An array of wall tile prefabs.
 	public GameObject[] outerWallTiles;                       // An array of outer wall tile prefabs.
+	public GameObject exit;
 	public GameObject player;
 	public GameObject key;
 	public GameObject door;
@@ -113,10 +114,15 @@ public class BoardCreator : MonoBehaviour
 				// Setup the corridor based on the room that was just created.
 				corridors[i].SetupCorridor(rooms[i], corridorLength, roomWidth, roomHeight, columns, rows, false, rooms[i].hasKey);
 			}
+				
 
-			if (i == rooms.Length *.5f)
+			if (i == rooms.Length-1)
 			{
-				Vector3 playerPos = new Vector3 (rooms[i].xPos, rooms[i].yPos, 0);
+				//add exit to the level
+				Vector3 exitPos = new Vector3 (rooms[i].xPos, rooms[i].yPos, 0);
+				Instantiate(exit, exitPos, Quaternion.identity);
+
+				Vector3 playerPos = new Vector3 (rooms[0].xPos, rooms[0].yPos, 0);
 				Instantiate(player, playerPos, Quaternion.identity);
 			}
 		}
