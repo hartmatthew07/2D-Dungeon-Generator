@@ -2,13 +2,21 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Completed/Scripts/BoardCreator.cs">
     <Files>
-      <File FileName="Assets/Completed/Scripts/BoardCreator.cs" Line="25" Column="25" />
+      <File FileName="Assets/Completed/Scripts/Corridor.cs" Line="10" Column="2" />
+      <File FileName="Assets/Completed/Scripts/BoardCreator.cs" Line="179" Column="44" />
+      <File FileName="Assets/Completed/Scripts/GameManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Completed/Scripts/Loader.cs" Line="1" Column="1" />
+      <File FileName="Assets/Completed/Scripts/SoundManager.cs" Line="1" Column="1" />
       <File FileName="Assets/Completed/Scripts/Door.cs" Line="1" Column="1" />
       <File FileName="Assets/Completed/Scripts/CollectionScript.cs" Line="1" Column="1" />
-      <File FileName="Assets/Completed/Scripts/Corridor.cs" Line="1" Column="1" />
       <File FileName="Assets/Completed/Scripts/BoardManager.cs" Line="1" Column="1" />
       <File FileName="Assets/Completed/Scripts/Room.cs" Line="1" Column="1" />
-      <File FileName="Assets/UnityTestTools/Assertions/Editor/AssertionListRenderer.cs" Line="127" Column="1" />
+      <File FileName="Assets/UnityTestTools/Assertions/Editor/AssertionListRenderer.cs" Line="1" Column="1" />
+      <File FileName="Assets/Completed/Scripts/Player.cs" Line="1" Column="1" />
+      <File FileName="Assets/UnityTestTools/Assertions/Comparers/ActionBase.cs" Line="1" Column="1" />
+      <File FileName="Assets/Completed/Scripts/MovingObject.cs" Line="1" Column="1" />
+      <File FileName="Assets/Completed/Scripts/AudioManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Completed/Scripts/IntRange.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
